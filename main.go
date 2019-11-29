@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kafka-data-transfer/transfer"
+	"github.com/oliver-zhang/kafka-data-transfer/transfer"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
