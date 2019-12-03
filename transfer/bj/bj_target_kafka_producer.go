@@ -1,4 +1,4 @@
-package transfer
+package bj
 
 import (
 	"fmt"
@@ -6,10 +6,13 @@ import (
 )
 
 var config = sarama.NewConfig()
-var producer sarama.SyncProducer
+var producer *sarama.SyncProducer
 var err error
 
 func InitKafkaProducer(maxRetry int, brokenList []string) (producer sarama.SyncProducer) {
+	if producer != nil {
+		return producer
+	}
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Retry.Max = maxRetry
 	config.Producer.Return.Successes = true
@@ -19,15 +22,16 @@ func InitKafkaProducer(maxRetry int, brokenList []string) (producer sarama.SyncP
 	}
 	return producer
 }
-func SendMsgToKafka(topic string, originMsg string) {
+
+func BjProductEnvKafkaProducer(topic string, originMsg string, producer sarama.SyncProducer) {
 	msg := &sarama.ProducerMessage{
 		Topic: topic,
 		Value: sarama.StringEncoder(originMsg),
 	}
-	pardition, offset, err := producer.SendMessage(msg)
+	partition, offset, err := producer.SendMessage(msg)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Message is store in topic(%s)/partition(%d)/offset(%d)\n ", topic, pardition, offset)
+	fmt.Printf("Message is store in topic(%s)/partition(%d)/offset(%d)\n ", topic, partition, offset)
 }

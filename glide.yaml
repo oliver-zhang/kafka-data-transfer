@@ -1,6 +1,6 @@
 package: github.com/kafka_data_transfer
 import:
 - package: github.com/Shopify/sarama
-  version: v1.24.1
+  version: v1.9.0
 - package: gopkg.in/alecthomas/kingpin.v2
   version: v2.2.6
